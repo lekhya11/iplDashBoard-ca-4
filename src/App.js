@@ -1,7 +1,17 @@
+import {Route, Switch} from 'react-router-dom'
+
 import Home from './components/Home'
+import TeamMatches from './components/TeamMatches'
 
 import './App.css'
 
-const App = () => <Home />
+const App = () => (
+  <div>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/https://apis.ccbp.in/ipl/:id" component={TeamMatches} />
+    </Switch>
+  </div>
+)
 
 export default App

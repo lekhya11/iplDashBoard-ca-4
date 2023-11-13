@@ -1,1 +1,5 @@
 /* Write your CSS here */
+.bg-container-team {
+  background-image: linear-gradient(#a4261d, #1e293b);
+  height: 100vh;
+}
