@@ -2,12 +2,15 @@ import {Component} from 'react'
 
 import LatestMatch from '../LatestMatch'
 
+import MatchCard from '../MatchCard'
+
 import './index.css'
 
 class TeamMatches extends Component {
   state = {
     bannerUrl: '',
     latestDetails: {},
+    recentMatches: [],
   }
 
   componentDidMount() {
@@ -25,7 +28,8 @@ class TeamMatches extends Component {
     console.log(data)
 
     const teamBannerUrl = data.team_banner_url
-    console.log(teamBannerUrl)
+
+    // console.log(teamBannerUrl)
 
     const latestMatchDetails = {
       competingTeam: data.latest_match_details.competing_team,
@@ -42,15 +46,40 @@ class TeamMatches extends Component {
     }
 
     this.setState({bannerUrl: teamBannerUrl, latestDetails: latestMatchDetails})
+
+    const updatedRecentMatches = data.recent_matches.map(each => ({
+      competingTeam: each.competing_team,
+      competingTeamLogo: each.competing_team_logo,
+      date: each.date,
+      firstInnings: each.first_innings,
+      id: each.id,
+      manOfTheMatch: each.man_of_the_match,
+      matchStatus: each.match_status,
+      result: each.result,
+      secondInnings: each.second_innings,
+      umpires: each.umpires,
+      venue: each.venue,
+    }))
+
+    console.log(updatedRecentMatches)
+
+    this.setState({recentMatches: updatedRecentMatches})
   }
 
   render() {
-    const {bannerUrl, latestDetails} = this.state
+    const {bannerUrl, latestDetails, recentMatches} = this.state
+
     console.log(latestDetails)
+
     return (
       <div className="bg-container-team">
         <img src={bannerUrl} alt="banner" />
         <LatestMatch latestDetails={latestDetails} />
+        <div className="cards-display">
+          {recentMatches.map(each => (
+            <MatchCard recentMatches={each} />
+          ))}
+        </div>
       </div>
     )
   }
